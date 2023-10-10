@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Exercise_09</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="see_more"><u>See more</u>  </string>
+    <string name="details">details demo for an SIM-Free, Model A19211 6.5-inch Super Retina HD display with OLED technology A12 Bionic chip with</string>
+</resources>
