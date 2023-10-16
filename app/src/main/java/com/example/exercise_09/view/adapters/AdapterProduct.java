@@ -71,7 +71,6 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.ViewHold
         holder.tvPrice.setText("$" + product.getPrice());
         holder.tvRate.setText(String.valueOf(product.getRating()));
 
-
         holder.cardView.setOnClickListener(v -> {
             itemClickListener.onItemClick(product);
         });

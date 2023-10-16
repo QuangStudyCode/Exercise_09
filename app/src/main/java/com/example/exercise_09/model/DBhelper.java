@@ -105,13 +105,40 @@ public class DBhelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
 
         String sql = "SELECT * FROM " + TABLE_NAME;
-        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
-        while (cursor.moveToNext()) {
+        @SuppressLint("Recycle") Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
 
+        while (cursor.moveToNext()) {
             Product product = new Product();
             product.setId(cursor.getInt(cursor.getColumnIndex(PRODUCT_ID)));
             product.setTitle(cursor.getString(cursor.getColumnIndex(PRODUCT_TITLE)));
-            product.setDescription(cursor.getString(cursor.getColumnIndex(PRODUCT_TITLE)));
+            product.setCheck_like(cursor.getInt(cursor.getColumnIndex(PRODUCT_CHECK)));
+            product.setDescription(cursor.getString(cursor.getColumnIndex(PRODUCT_DES)));
+            product.setPrice(cursor.getInt(cursor.getColumnIndex(PRODUCT_PRICE)));
+            product.setDiscountPercentage(cursor.getDouble(cursor.getColumnIndex(PRODUCT_DISCOUNT)));
+            product.setRating(cursor.getDouble(cursor.getColumnIndex(PRODUCT_RATING)));
+            product.setStock(cursor.getInt(cursor.getColumnIndex(PRODUCT_STOCK)));
+            product.setBrand(cursor.getString(cursor.getColumnIndex(PRODUCT_BRAND)));
+            product.setThumbnail(cursor.getString(cursor.getColumnIndex(PRODUCT_THUMBNAIL)));
+
+            productList.add(product);
+        }
+        sqLiteDatabase.close();
+        return productList;
+    }
+
+    @SuppressLint("Range")
+    public List<Product> getProductByChecked() {
+        List<Product> productList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + PRODUCT_CHECK + " = 1";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            Product product = new Product();
+            product.setId(cursor.getInt(cursor.getColumnIndex(PRODUCT_ID)));
+            product.setTitle(cursor.getString(cursor.getColumnIndex(PRODUCT_TITLE)));
+            product.setCheck_like(cursor.getInt(cursor.getColumnIndex(PRODUCT_CHECK)));
+            product.setDescription(cursor.getString(cursor.getColumnIndex(PRODUCT_DES)));
             product.setPrice(cursor.getInt(cursor.getColumnIndex(PRODUCT_PRICE)));
             product.setDiscountPercentage(cursor.getDouble(cursor.getColumnIndex(PRODUCT_DISCOUNT)));
             product.setRating(cursor.getDouble(cursor.getColumnIndex(PRODUCT_RATING)));
@@ -163,6 +190,26 @@ public class DBhelper extends SQLiteOpenHelper {
         }
     }
 
+    public void updateUncheckLikeProduct(Integer id) {
+        if (id >= 0) {
+            SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+            String whereClause = PRODUCT_ID + "=?";
+            String[] whereArg = {String.valueOf(id)};
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(PRODUCT_CHECK, 0);
+
+            int rowsAffected = sqLiteDatabase.update(TABLE_NAME, contentValues, whereClause, whereArg);
+            if (rowsAffected > 0) {
+                Log.d("TAG", "updateCheckLikeProduct: " + id);
+            } else {
+                Log.d("TAG", "updateCheckLikeProduct: false");
+            }
+            sqLiteDatabase.close();
+
+        }
+    }
+
     @SuppressLint("Range")
     public int getCheckLikeProduct(int productId) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -194,4 +241,6 @@ public class DBhelper extends SQLiteOpenHelper {
 
         return checkLike;
     }
+
+
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginBottom="@dimen/_40sdp"
     tools:context=".view.fragments.HomeFragment">
 
     <ScrollView
@@ -12,9 +13,9 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <com.denzcoskun.imageslider.ImageSlider
                 android:id="@+id/imgSlider"
@@ -37,12 +38,12 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="#9B9696"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="@string/see_more"
+                    android:textColor="#9B9696"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -67,12 +68,12 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:textColor="#9B9696"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="@string/see_more"
+                    android:textColor="#9B9696"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -87,6 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -99,8 +101,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:textColor="#9B9696"
                     android:text="@string/see_more"
+                    android:textColor="#9B9696"
                     android:textStyle="normal" />
             </LinearLayout>
 
@@ -115,6 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -127,8 +130,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:textColor="#9B9696"
                     android:text="@string/see_more"
+                    android:textColor="#9B9696"
                     android:textStyle="normal" />
             </LinearLayout>
 
@@ -138,11 +141,9 @@
                 android:layout_height="wrap_content" />
 
 
-
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </LinearLayout>

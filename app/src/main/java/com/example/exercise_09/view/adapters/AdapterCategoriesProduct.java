@@ -17,7 +17,6 @@ import com.example.exercise_09.model.objects.Product;
 import java.util.List;
 
 public class AdapterCategoriesProduct extends RecyclerView.Adapter<AdapterCategoriesProduct.ViewHolder> {
-
     private Context context;
 
     private List<Product> productList;
@@ -57,8 +56,6 @@ public class AdapterCategoriesProduct extends RecyclerView.Adapter<AdapterCatego
 
             imageView = itemView.findViewById(R.id.imgCategories);
             textView = itemView.findViewById(R.id.tvCategories);
-
-
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.exercise_09.view.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -48,14 +49,14 @@ import retrofit2.Response;
  */
 public class HomeFragment extends Fragment implements ItemClickListener, IItemClickSave, ISaveView {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    public static final String TAG = "check";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -80,12 +81,19 @@ public class HomeFragment extends Fragment implements ItemClickListener, IItemCl
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttach: ");
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Log.d(TAG, "onCreate: ");
     }
 
 
@@ -93,18 +101,15 @@ public class HomeFragment extends Fragment implements ItemClickListener, IItemCl
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView: ");
+//        updateAdapter();
         return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateAdapter();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: ");
         recyclerView = view.findViewById(R.id.rcFragmentHome);
         rcFragmentHomeMostPopular = view.findViewById(R.id.rcFragmentHomeMostPopular);
         rcFragmentIphone = view.findViewById(R.id.rcFragmentIphone);
@@ -114,14 +119,13 @@ public class HomeFragment extends Fragment implements ItemClickListener, IItemCl
         dBhelper = new DBhelper(getActivity());
 //        dBhelper.deleteAllProducts();
         savePresenter = new SavePresenter(this);
-
+//        dataDivisionFromDB();
         callApi();
         switchImg();
     }
 
     ProductsResponse productsResponse;
 
-    //
     private AdapterProduct adapterProduct;
 
     private AdapterCategoriesProduct adapterCategoriesProduct;
@@ -143,7 +147,6 @@ public class HomeFragment extends Fragment implements ItemClickListener, IItemCl
 
     private DBhelper dBhelper;
 
-
     private void callApi() {
         ApiService apiService = RetrofitClient.create(ApiService.class);
         apiService.getProduct().enqueue(new Callback<ProductsResponse>() {
@@ -157,10 +160,11 @@ public class HomeFragment extends Fragment implements ItemClickListener, IItemCl
                         productList = new ArrayList<>();
                         if (productsResponse != null) {
                             for (Product product : productsResponse.getProducts()) {
-                                Log.d("TAG", "onResponse: " + product);
+                                Log.d("TAG", "onResponse: " + product.getId() + "/" + product.getCheck_like());
                                 dBhelper.addProductFromAPI(product);
                             }
                         }
+
                         dataDivisionFromDB();
                     }
                 } else {
@@ -175,49 +179,42 @@ public class HomeFragment extends Fragment implements ItemClickListener, IItemCl
         });
     }
 
-    private void dataDivisionFromDB() {
-        List<Product> productListFromDb = new ArrayList<>();
+    private List<Product> productListFromDb;
 
+    private void dataDivisionFromDB() {
+        productListFromDb = new ArrayList<>();
         productListFromDb = dBhelper.getAllProduct();
 
         productListHotdeal = new ArrayList<>();
-
 //        hot deal
         productListHotdeal = productListFromDb.stream()
                 .filter(product -> product.getDiscountPercentage() > 15.0)
                 .collect(Collectors.toList());
         initView(recyclerView, productListHotdeal);
 
-    }
-
-    private void dataDivision(List<Product> productList) {
-        productListHotdeal = new ArrayList<>();
-//      stream for Hot Deal
-
-        productListHotdeal = productList.stream()
-                .filter(product -> product.getDiscountPercentage() > 15.0)
-                .collect(Collectors.toList());
-        initView(recyclerView, productListHotdeal);
-
-//        stream for Most Popular
-        productListMostPopular = productList.stream()
+//        most popular
+        productListMostPopular = new ArrayList<>();
+        productListMostPopular = productListFromDb.stream()
                 .filter(product -> product.getRating() > 4.5)
                 .collect(Collectors.toList());
-        initViewForListMostPopular(rcFragmentHomeMostPopular, productListMostPopular);
+        initViewForListMostPopular(rcFragmentHomeMostPopular, productListFromDb);
 
-//       steam for Categories(lọc các loại sản phẩm)
-//        List<String> sortedBrands = uniqueBrands.stream()
-//                .sorted()
-//                .collect(Collectors.toList());
+//        category
+        productListCategories = new ArrayList<>();
+        productListCategories = productListFromDb;
+        initViewForCategories(rcCategogies, productListCategories);
 
-        initViewForCategories(rcCategogies, productList);
-//        Log.d("TAG", "dataDivision: "+sortedBrands);
-
-//      stream for iphone
+//        iphone
+        productListMostIphone = new ArrayList<>();
         productListMostIphone = productList.stream()
-                .filter(product -> product.getBrand().equals("Apple"))
+                .filter(product -> "Samsung".equals(product.getBrand()))
                 .collect(Collectors.toList());
-        initViewForIphone(rcFragmentIphone, productListMostIphone);
+
+        initViewForIphone(rcFragmentIphone,productListMostIphone);
+
+//        for (Product product:productList){
+//            Log.d(TAG, "dataDivisionFromDB: "+product.getBrand());
+//        }
     }
 
     private void initViewForIphone(RecyclerView rcFragmentIphone, List<Product> productListMostIphone) {
@@ -292,12 +289,14 @@ public class HomeFragment extends Fragment implements ItemClickListener, IItemCl
 
     @Override
     public void onFail(Product product) {
-        dBhelper.deleteProduct(product.getId());
+        dBhelper.updateUncheckLikeProduct(product.getId());
+        checkProductStatus(product);
     }
 
     @Override
     public void onSaveClick(Product product) {
         savePresenter.clickSave(product);
+        checkProductStatus(product);
     }
 
     private void checkProductStatus(Product product) {
@@ -307,11 +306,4 @@ public class HomeFragment extends Fragment implements ItemClickListener, IItemCl
         adapterProduct.notifyDataSetChanged();
     }
 
-    private void updateAdapter() {
-        // Update the adapter with the latest data
-        dataDivisionFromDB();
-        if (adapterProduct != null) {
-            adapterProduct.notifyDataSetChanged();
-        }
-    }
 }
