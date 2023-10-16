@@ -1,4 +1,4 @@
-package com.example.exercise_09.fragment;
+package com.example.exercise_09.view.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.exercise_09.R;
-import com.example.exercise_09.model.Product;
+import com.example.exercise_09.model.objects.Product;
 import com.google.gson.Gson;
 
 /**
@@ -91,7 +91,6 @@ public class DetailsProductFragment extends Fragment {
         detailsProduct = view.findViewById(R.id.detailsProduct);
         priceProductDetails = view.findViewById(R.id.priceProductDetails);
 
-
         Bundle bundle = getArguments();
         if (bundle != null && bundle.containsKey("product")) {
             String productJson = bundle.getString("product");
@@ -99,11 +98,13 @@ public class DetailsProductFragment extends Fragment {
             Product product = gson.fromJson(productJson, Product.class);
             // Sử dụng đối tượng Product ở đây
             //            glide image
-//            Glide.with(getContext()).load(product.getThumbnail()).into(imageView);
-//            TitleProductDetails.setText(product.getTitle());
-//            descriptionProductDetails.setText(product.getDescription());
-//            priceProductDetails.setText(product.getPrice());
 
+            Glide.with(DetailsProductFragment.this).load(product.getThumbnail()).into(imageView);
+            TitleProductDetails.setText(product.getTitle());
+            descriptionProductDetails.setText(product.getDescription());
+            priceProductDetails.setText("$"+product.getPrice());
+
+            Log.d("TAG", "onCreateView: "+product.toString());
         }
         return view;
     }

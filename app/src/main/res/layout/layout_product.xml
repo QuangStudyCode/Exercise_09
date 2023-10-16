@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="190dp"
     android:id="@+id/myCard"
-    android:layout_height="250dp"
-    android:layout_marginHorizontal="5dp"
-    android:layout_marginVertical="10dp"
-    app:cardCornerRadius="10dp">
+    android:layout_width="@dimen/_120sdp"
+    android:layout_height="@dimen/_185sdp"
+    android:layout_margin="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_10sdp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,12 +14,12 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="125dp"
+            android:layout_height="@dimen/_100sdp"
             android:background="#F4FAFF">
 
             <ImageView
                 android:id="@+id/imgProduct"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:src="@drawable/ic_launcher_background" />
@@ -28,8 +27,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:layout_margin="6dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
             android:orientation="horizontal">
 
             <TextView
@@ -39,28 +38,29 @@
                 android:layout_weight="1"
                 android:autoSizeTextType="uniform"
                 android:text="Iphone 15 Titanium"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_12sdp"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/bookmark" />
+                android:id="@+id/imgLike"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="21sp"
+                android:src="@drawable/save" />
         </LinearLayout>
-
 
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="4sp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:text="$999"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="@dimen/_4sdp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -70,11 +70,13 @@
                 android:src="@drawable/star1" />
 
             <TextView
+                android:textStyle="bold"
                 android:id="@+id/tvRate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3sp"
-                android:text="4.9" />
+                android:layout_marginStart="@dimen/_2sdp"
+                android:text="4.9"
+                android:textSize="@dimen/_9sdp" />
         </LinearLayout>
 
     </LinearLayout>

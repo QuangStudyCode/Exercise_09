@@ -1,4 +1,4 @@
-package com.example.exercise_09.model;
+package com.example.exercise_09.model.objects;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,6 +6,16 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Product {
+
+    private int check_like = 0;
+
+    public int getCheck_like() {
+        return check_like;
+    }
+
+    public void setCheck_like(int check_like) {
+        this.check_like = check_like;
+    }
 
     @SerializedName("id")
     @Expose
@@ -48,6 +58,7 @@ public class Product {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
     public String getTitle() {
         return title;

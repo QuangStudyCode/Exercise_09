@@ -1,4 +1,4 @@
-package com.example.exercise_09.model;
+package com.example.exercise_09.model.objects;
 
 
 import java.util.List;

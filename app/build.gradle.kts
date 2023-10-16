@@ -42,6 +42,7 @@ dependencies {
 
     implementation("androidx.navigation:navigation-fragment:2.5.3")
     implementation("androidx.navigation:navigation-ui:2.5.3")
+    implementation ("com.intuit.sdp:sdp-android:1.1.0")
 
 //    for api
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

@@ -1,4 +1,4 @@
-package com.example.exercise_09;
+package com.example.exercise_09.model.network;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

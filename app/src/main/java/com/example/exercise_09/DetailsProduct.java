@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.exercise_09.model.Product;
+import com.example.exercise_09.model.objects.Product;
 import com.google.gson.Gson;
 
 public class DetailsProduct extends AppCompatActivity {
